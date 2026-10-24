@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, ArrowUpRight, CheckCircle2, Download, Monitor, Apple, ShieldCheck, Laptop, Info } from 'lucide-react';
+import { ExternalLink, Github, ArrowUpRight, CheckCircle2, Download, Monitor, Apple, ShieldCheck, Laptop, Info, Globe } from 'lucide-react';
 
 import siteWebStatique from '../assets/siteWebStatic.jpeg';
 import app_Quiz from '../assets/app_Quiz.png';
