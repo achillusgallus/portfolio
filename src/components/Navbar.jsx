@@ -1,68 +1,110 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Code2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Menu, X, FileText, Terminal } from 'lucide-react';
 import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ onOpenResume }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
+            setScrolled(window.scrollY > 30);
         };
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     const navLinks = [
-        { name: 'A propos', href: '#about' },
+        { name: 'À Propos', href: '#about' },
+        { name: 'Projets & ERP', href: '#projects' },
         { name: 'Compétences', href: '#skills' },
-        { name: 'Projets', href: '#projects' },
+        { name: 'Parcours', href: '#experience' },
+        { name: 'Contact', href: '#contact' },
     ];
 
     return (
-        <motion.nav
-            className={`navbar ${scrolled ? 'scrolled' : ''}`}
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5 }}
-        >
+        <header className={`navbar-wrapper ${scrolled ? 'is-scrolled' : ''}`}>
             <div className="container nav-container">
-                <a href="#" className="logo">
-                    <Code2 size={32} className="logo-icon" />
-                    <span>Affognon Komi Achille</span>
+                <a href="#" className="nav-brand" aria-label="Accueil">
+                    <span className="brand-badge">
+                        <Terminal size={15} />
+                    </span>
+                    <span className="brand-name">
+                        AFFOGNON<strong>.DEV</strong>
+                    </span>
                 </a>
 
-                {/* Desktop Menu */}
-                <ul className="nav-links desktop">
+                {/* Desktop Nav */}
+                <nav className="nav-links desktop">
                     {navLinks.map((link) => (
-                        <li key={link.name}>
-                            <a href={link.href}>{link.name}</a>
-                        </li>
+                        <a key={link.name} href={link.href} className="nav-link">
+                            {link.name}
+                        </a>
                     ))}
-                    <a href="#contact" className="btn btn-primary">contact-moi</a>
-                </ul>
+                </nav>
+
+                {/* Status indicator & CV preview trigger */}
+                <div className="nav-actions desktop">
+                    <div className="nav-status-chip" title="Disponible pour missions & opportunités">
+                        <span className="status-beacon"></span>
+                        <span className="status-text">Disponible</span>
+                    </div>
+
+                    <button
+                        onClick={onOpenResume}
+                        className="btn btn-secondary btn-sm"
+                        title="Consulter et prévisualiser le CV"
+                    >
+                        <FileText size={15} />
+                        <span>Consulter CV</span>
+                    </button>
+                </div>
 
                 {/* Mobile Toggle */}
-                <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
-                    {isOpen ? <X size={24} color="white" /> : <Menu size={24} color="white" />}
+                <button
+                    className="mobile-toggle"
+                    onClick={() => setIsOpen(!isOpen)}
+                    aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+                >
+                    {isOpen ? <X size={20} /> : <Menu size={20} />}
                 </button>
-
-                {/* Mobile Menu */}
-                {isOpen && (
-                    <div className="mobile-menu">
-                        <ul>
-                            {navLinks.map((link) => (
-                                <li key={link.name}>
-                                    <a href={link.href} onClick={() => setIsOpen(false)}>{link.name}</a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
             </div>
-        </motion.nav>
+
+            {/* Mobile Dropdown */}
+            {isOpen && (
+                <div className="mobile-drawer">
+                    <nav className="mobile-nav-list">
+                        {navLinks.map((link) => (
+                            <a
+                                key={link.name}
+                                href={link.href}
+                                className="mobile-nav-link"
+                                onClick={() => setIsOpen(false)}
+                            >
+                                {link.name}
+                            </a>
+                        ))}
+                    </nav>
+                    <div className="mobile-drawer-footer">
+                        <div className="nav-status-chip">
+                            <span className="status-beacon"></span>
+                            <span>Disponible pour opportunités</span>
+                        </div>
+                        <button
+                            onClick={() => {
+                                setIsOpen(false);
+                                onOpenResume();
+                            }}
+                            className="btn btn-primary"
+                            style={{ width: '100%' }}
+                        >
+                            <FileText size={16} />
+                            <span>Consulter &amp; Télécharger CV</span>
+                        </button>
+                    </div>
+                </div>
+            )}
+        </header>
     );
 };
 
