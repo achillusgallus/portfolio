@@ -24,12 +24,12 @@ const schoolProReleases = [
         id: "windows",
         name: "Windows",
         osLabel: "Windows 10 / 11 (64-bit)",
-        fileName: "SchoolPro Setup 2.6.0.exe",
+        fileName: "SchoolPro.Setup.2.6.0.exe",
         fileSize: "175 Mo",
         fileType: "Installateur Exécutable (.exe)",
         icon: Monitor,
         badge: "Recommandé PC",
-        url: `${GITHUB_RELEASE_BASE}/SchoolPro%20Setup%202.6.0.exe`,
+        url: `${GITHUB_RELEASE_BASE}/SchoolPro.Setup.2.6.0.exe`,
         instructions: "Exécutez le fichier d'installation .exe pour installer SchoolPro sur votre ordinateur Windows."
     },
     {
